@@ -1,32 +1,60 @@
 var gulp = require('gulp'),
-  connect = require('gulp-connect'),
-  historyApiFallback = require('connect-history-api-fallback');
-var webserver = require('gulp-webserver');
+    connect = require('gulp-connect'),
+    historyApiFallback = require('connect-history-api-fallback'),
+    webserver = require('gulp-webserver'),
+    stylus = require('gulp-stylus'),
+    jshint = require('gulp-jshint'),
+    nib = require('nib'),
+    stylish = require('jshint-stylish'),
+    inject = require('gulp-inject'),
+    wiredep = require('wiredep').stream;
+
 // Servidor web de desarrollo
-/*gulp.task('webserver', function() {
+gulp.task('connect', function() {
   connect.server({
     root: './app',
     hostname: '0.0.0.0',
-    port: 8031,
     livereload: true,
     middleware: function(connect, opt) {
-      return [ historyApiFallback ];
+      return [ historyApiFallback({})  ];
     }
   });
-});*/
+});
+
 gulp.task('webserver', function() {
-  gulp.src('app')
+  gulp.src('./app')
     .pipe(webserver({
       livereload: true,
-      directoryListing: true,
-      open: true
+      directoryListing: false,
+      open: true,
     }));
 });
 
+// Busca en las carpetas de estilos y javascript los archivos que hayamos creado
+// para inyectarlos en el index.html
+gulp.task('inject', function() {
+  var sources = gulp.src(['./app/scripts/**/*.js','./app/stylesheets/**/*.css']);
+  return gulp.src('index.html', {cwd: './app'})
+    .pipe(inject(sources, {
+      read: false,
+      ignorePath: '/app'
+}))
+  .pipe(gulp.dest('./app'));
+});
+// Inyecta las librerias que instalemos vía Bower
+gulp.task('wiredep', function () {
+  gulp.src('./app/index.html')
+  .pipe(wiredep({directory: './app/lib'}))
+  .pipe(gulp.dest('./app'));
+});
+// Busca errores en el JS y nos los muestra por pantalla
+gulp.task('jshint', function() {
+return gulp.src('./app/scripts/**/*.js')
+.pipe(jshint('.jshintrc'))
+.pipe(jshint.reporter('jshint-stylish'))
+.pipe(jshint.reporter('fail'));
+});
 
-
-var stylus = require('gulp-stylus'),
-nib = require('nib');
 // Preprocesa archivos Stylus a CSS y recarga los cambios
 gulp.task('css', function() {
   gulp.src('./app/stylesheets/main.styl')
@@ -46,13 +74,7 @@ gulp.task('watch', function() {
   gulp.watch(['./app/**/*.html'], ['html']);
   gulp.watch(['./app/stylesheets/**/*.styl'], ['css']);
   gulp.watch(['./app/scripts/**/*.js'], ['jshint']);
+  gulp.watch(['./bower.json'], ['wiredep']);
 });
-gulp.task('default', ['webserver', 'watch']);
 
-
-//```js
-var jshint = require('gulp-jshint'), stylish = require('jshint-stylish');
-// Busca errores en el JS y nos los muestra por pantalla
-gulp.task('jshint', function() { return gulp.src('./app/scripts/*/.js')
-.pipe(jshint('.jshintrc')) .pipe(jshint.reporter('jshint-stylish'))
-.pipe(jshint.reporter('fail')); });
+gulp.task('default', ['connect','inject','wiredep','watch']);
