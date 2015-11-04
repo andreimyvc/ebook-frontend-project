@@ -1,9 +1,9 @@
 var gulp = require('gulp'),
   connect = require('gulp-connect'),
   historyApiFallback = require('connect-history-api-fallback');
-
+var webserver = require('gulp-webserver');
 // Servidor web de desarrollo
-gulp.task('server', function() {
+/*gulp.task('webserver', function() {
   connect.server({
     root: './app',
     hostname: '0.0.0.0',
@@ -13,7 +13,17 @@ gulp.task('server', function() {
       return [ historyApiFallback ];
     }
   });
+});*/
+gulp.task('webserver', function() {
+  gulp.src('app')
+    .pipe(webserver({
+      livereload: true,
+      directoryListing: true,
+      open: true
+    }));
 });
+
+
 
 var stylus = require('gulp-stylus'),
 nib = require('nib');
@@ -37,7 +47,7 @@ gulp.task('watch', function() {
   gulp.watch(['./app/stylesheets/**/*.styl'], ['css']);
   gulp.watch(['./app/scripts/**/*.js'], ['jshint']);
 });
-gulp.task('default', ['server', 'watch']);
+gulp.task('default', ['webserver', 'watch']);
 
 
 //```js
