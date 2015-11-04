@@ -1,23 +1,24 @@
 {
-"name": "ebook-frontend-project",
-"version": "0.0.1",
-"description": "Ejemplo de desarrollo de aplicación web con JavaScript",
-"bugs": {
-"url": "https://github.com/andreimyvc/ebook-frontend-project/issues",
-"email": "andreimyvc@gmail.com"
-},
-"license": "MIT",
-"author": {
-"name": "Carlos Azaustre",
-"email": "cazaustre@gmail.com",
-"url": "http://carlosazaustre.es"
-},
-"repository": {
-"type": "git",
-"url": "https://github.com/andreimyvc/ebook-frontend-project"
-},
+  "name": "ebook-frontend-project",
+  "version": "0.0.1",
+  "description": "Ejemplo de desarrollo de aplicación web con JavaScript",
+  "bugs": {
+    "url": "https://github.com/andreimyvc/ebook-frontend-project/issues",
+    "email": "andreimyvc@gmail.com"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Carlos Azaustre",
+    "email": "cazaustre@gmail.com",
+    "url": "http://carlosazaustre.es"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andreimyvc/ebook-frontend-project"
+  },
   "dependencies": {},
   "devDependencies": {
+    "connect-history-api-fallback": "^1.1.0",
     "gulp": "^3.9.0",
     "gulp-connect": "^2.2.0",
     "gulp-if": "^2.0.0",
@@ -26,6 +27,7 @@
     "gulp-stylus": "^2.1.0",
     "gulp-uglify": "^1.4.2",
     "gulp-useref": "^2.0.1",
+    "jshint-stylish": "^2.0.1",
     "nib": "^1.1.0"
   }
 }
