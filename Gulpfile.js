@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     nib = require('nib'),
     stylish = require('jshint-stylish'),
     inject = require('gulp-inject'),
-    wiredep = require('wiredep').stream;
+    wiredep = require('wiredep').stream,
+    bower = require('gulp-bower');
 
 // Servidor web de desarrollo
 gulp.task('connect', function() {
@@ -42,11 +43,37 @@ gulp.task('inject', function() {
   .pipe(gulp.dest('./app'));
 });
 // Inyecta las librerias que instalemos vía Bower
+// gulp.task('wiredep', function () {
+//   gulp.src('./app/index.html')
+//     .pipe(wiredep({directory: './app/lib'}))
+//     .pipe(gulp.dest('./app'));
+// });
+
 gulp.task('wiredep', function () {
   gulp.src('./app/index.html')
-  .pipe(wiredep({directory: './app/lib'}))
-  .pipe(gulp.dest('./app'));
+    .pipe(wiredep({ optional: 'configuration', goes: 'here' }))
+    .pipe(gulp.dest('./app'));
 });
+
+// gulp.task('wiredep', function() {
+//   return bower('./lib')
+//     .pipe(gulp.dest('lib/'))
+// });
+
+// gulp.task('bower', function () {
+//   gulp.src('./app/index.html')
+//     .pipe(wiredep({
+//       optional: 'configuration',
+//       goes: 'here'
+//     }))
+//     .pipe(gulp.dest('./app'));
+// });
+
+// gulp.task('bower', function() {
+//   return bower()
+//     .pipe(gulp.dest('lib/'))
+// });
+
 // Busca errores en el JS y nos los muestra por pantalla
 gulp.task('jshint', function() {
 return gulp.src('./app/scripts/**/*.js')
@@ -77,4 +104,4 @@ gulp.task('watch', function() {
   gulp.watch(['./bower.json'], ['wiredep']);
 });
 
-gulp.task('default', ['connect','inject','wiredep','watch']);
+gulp.task('default', ['connect','inject', 'wiredep' ,'watch']);
