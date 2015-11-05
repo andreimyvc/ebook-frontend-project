@@ -43,8 +43,7 @@
   }
   angular
     .module('blog.controllers')
-    .factory('postlist', PostListCtrl)
-    .factory('PostListCtrl', PostListCtrl)
-    .factory('PostDetailCtrl', PostDetailCtrl)
-    .factory('PostCreateCtrl', PostCreateCtrl);
+    .controller('PostListCtrl', PostListCtrl)
+    .controller('PostDetailCtrl', PostDetailCtrl)
+    .controller('PostCreateCtrl', PostCreateCtrl);
 })();
