@@ -1,0 +1,17 @@
+<section>
+  <form name="createPost" role="form" ng-submit="postcreate.create()">
+    <fieldset class="form-group">
+      <input class="form-control input-lg" type="text" placeholder="Título del Post"
+       ng-model="postcreate.post.title">
+    </fieldset>
+    <fieldset class="form-group">
+    <textarea class="form-control input-lg" placeholder="Texto del Post"
+      ng-model="postcreate.post.text">
+    </textarea>
+    </fieldset>
+    <hr>
+    <button class="btn btn-primary btn-lg" type="submit" ng-disabled="!createPost.$valid">
+    <span class="fa fa-rocket"> Publicar</span>
+    </button>
+  </form>
+</section>
